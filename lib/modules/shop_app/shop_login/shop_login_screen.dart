@@ -2,10 +2,10 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:my_project/layout/shop_app/cubit/cubit.dart';
+import 'package:my_project/layout/shop_app/cubit/states.dart';
 import 'package:my_project/layout/shop_app/shop_layout.dart';
 import 'package:my_project/modules/shop_app/register/shop_register_screen.dart';
-import 'package:my_project/modules/shop_app/shop_login/cubit/cubit.dart';
-import 'package:my_project/modules/shop_app/shop_login/cubit/states.dart';
 import 'package:my_project/shared/components/components.dart';
 import 'package:my_project/shared/components/constants.dart';
 import 'package:my_project/shared/network/local/cache/cache_helper.dart';
@@ -19,28 +19,30 @@ class ShopLoginScreen extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ShopLoginCubit, ShopLoginStates>(
+    return BlocConsumer<ShopCubit, ShopStates>(
       listener: (context, state) => {
         if (state is ShopLoginSuccessStates)
           {
-            if (ShopLoginCubit.get(context).loginModel.status)
+            if (ShopCubit.get(context).loginModel.status)
               {
                 showToast(
-                  message: ShopLoginCubit.get(context).loginModel.message!,
+                  message: ShopCubit.get(context).loginModel.message!,
                   state: ToastColor.success,
                 ),
                 CacheHelper.saveData(
                   key: 'token',
-                  value: ShopLoginCubit.get(context).loginModel.data?.token,
+                  value: ShopCubit.get(context).loginModel.data?.token,
                 ).then((value) {
-                  token = ShopLoginCubit.get(context).loginModel.data?.token;
+                  token = ShopCubit.get(context).loginModel.data?.token;
+                  ShopCubit.get(context).currentIndex = 0;
+                  ShopCubit.get(context).getUserData();
                   navigateAndFinish(context, ShopLayout());
-                })
+                }),
               }
             else
               {
                 showToast(
-                    message: ShopLoginCubit.get(context).loginModel.message!,
+                    message: ShopCubit.get(context).loginModel.message!,
                     state: ToastColor.error)
               }
           }
@@ -97,7 +99,7 @@ class ShopLoginScreen extends StatelessWidget {
                       controller: passController,
                       type: TextInputType.visiblePassword,
                       isClickable: true,
-                      isPassword: ShopLoginCubit.get(context).isNotShown,
+                      isPassword: ShopCubit.get(context).isNotShown,
                       validate: (String value) {
                         if (value.isEmpty) {
                           return 'Password is too short';
@@ -108,7 +110,7 @@ class ShopLoginScreen extends StatelessWidget {
                       prefix: Icons.lock,
                       suffix: Icons.remove_red_eye,
                       suffixPressed: () {
-                        ShopLoginCubit.get(context).changePasswordVisibility();
+                        ShopCubit.get(context).changePasswordVisibility();
                       }
                     ),
                     const SizedBox(
@@ -120,7 +122,7 @@ class ShopLoginScreen extends StatelessWidget {
                         text: 'login',
                         function: () {
                           if (formKey.currentState!.validate()) {
-                            ShopLoginCubit.get(context).userLogin(
+                            ShopCubit.get(context).userLogin(
                               email: textController.text,
                               password: passController.text,
                             );

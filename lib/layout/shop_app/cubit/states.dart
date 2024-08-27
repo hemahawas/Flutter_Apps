@@ -7,6 +7,17 @@ class ShopInitialStates extends ShopStates {}
 
 class ShopChangeBottomNavStates extends ShopStates {}
 
+//Login
+class ShopLoginInitialStates extends ShopStates {}
+
+class ShopLoginLoadingStates extends ShopStates {}
+
+class ShopLoginSuccessStates extends ShopStates {}
+
+class ShopLoginErrorStates extends ShopStates {}
+
+class ShopLoginChangePasswordVisibilityStates extends ShopStates {}
+
 //Home
 class ShopLoadingHomeDataState extends ShopStates {}
 

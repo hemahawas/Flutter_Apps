@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:my_project/modules/counter_app/counter_screen.dart';
 import 'package:my_project/modules/shop_app/on_boarding/on_boarding_screen.dart';
 import 'package:my_project/modules/shop_app/register/cubit/cubit.dart';
-import 'package:my_project/modules/shop_app/shop_login/cubit/cubit.dart';
 import 'package:my_project/shared/bloc_observer.dart';
 import 'package:my_project/shared/components/constants.dart';
 import 'package:my_project/shared/cubit/cubit.dart';
@@ -62,9 +61,6 @@ class MyApp extends StatelessWidget {
 
         BlocProvider(
         create: (context) => ShopCubit()..getHomeData()..getCategories()..getFavorites()..getUserData(),
-        ),
-        BlocProvider(
-          create: (context) => ShopLoginCubit(),
         ),
         BlocProvider(
           create: (context) => ShopRegisterCubit(),
