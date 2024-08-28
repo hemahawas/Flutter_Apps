@@ -21,6 +21,37 @@ class ShopCubit extends Cubit<ShopStates> {
 
   static ShopCubit get(context) => BlocProvider.of(context);
 
+
+  late ShopLoginModel loginModel;
+
+  bool isNotShown = true;
+
+  void userLogin({
+    required String email,
+    required String password,
+  }) {
+    emit(ShopLoginLoadingStates());
+    DioHelper.postData(
+      path: LOGIN,
+      data: {
+        'email': email,
+        'password': password,
+      },
+    ).then((value) {
+      print(value.toString());
+      loginModel = ShopLoginModel.fromJson(value.data);
+      emit(ShopLoginSuccessStates());
+    }).catchError((error) {
+      print(error.toString());
+      emit(ShopLoginErrorStates());
+    });
+  }
+
+  void changePasswordVisibility(){
+    isNotShown = !isNotShown;
+    emit(ShopLoginChangePasswordVisibilityStates());
+  }
+
   int currentIndex = 0;
 
   List<Widget> shopScreens = [

@@ -15,6 +15,8 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates>(
+      listener: (context, state) {
+        if(state is ShopSuccessUpdateUserState)
           showToast(message: "Updated Successfully", state: ToastColor.success);
       },
       builder: (context, state) {
