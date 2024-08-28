@@ -1,6 +1,6 @@
 #sallaH (Shop App)
 
-A fluuter application with handling APIs Professionally
+A flutter application with handling APIs Professionally
 
 
 
